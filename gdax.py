@@ -90,8 +90,8 @@ class GDAX(object):
     data = []
 
     # We will fetch the candle data in windows of maximum 100 items.
-    # GDAX has a limit of returning maximum of 200, per request.
-    delta = timedelta(minutes=granularity * 100)
+    # GDAX has a limit of returning maximum of 350, per request.
+    delta = timedelta(minutes=granularity * 340)
 
     slice_start = start
     while slice_start != end:
@@ -102,4 +102,5 @@ class GDAX(object):
     data_frame = pandas.DataFrame(data=data, columns=['time', 'low', 'high', 'open', 'close', 'volume'])
     data_frame['time']=data_frame['time'].apply(lambda x: datetime.fromtimestamp(x).strftime('%Y-%m-%d %H:%M:%S'))
     data_frame.set_index('time', inplace=True)
+    data_frame.index = pandas.to_datetime(data_frame.index)
     return data_frame
