@@ -100,7 +100,7 @@ class GDAX(object):
       slice_start = slice_end
 
     data_frame = pandas.DataFrame(data=data, columns=['time', 'low', 'high', 'open', 'close', 'volume'])
-    data_frame['time']=data_frame['time'].apply(lambda x: datetime.fromtimestamp(x).strftime('%Y-%m-%d %H:%M:%S'))
+    data_frame['time']=data_frame['time'].apply(lambda x: datetime.utcfromtimestamp(x).strftime('%Y-%m-%d %H:%M:%S'))
     data_frame.set_index('time', inplace=True)
     data_frame.index = pandas.to_datetime(data_frame.index)
     return data_frame
